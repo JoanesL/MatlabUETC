@@ -262,7 +262,7 @@ for i=1:size(tEq,2)
     t_tEq=t_tEqualty{i};
     Mean_f_t=Mean{i};
     StD_f_t=StD{i};
-    plot(t_tEq,Mean_f_t,'LineWidth',2); hold on;
+    plot(t_tEq,Mean_f_t); hold on;
     plotErrorBars(t_tEq(10:10:end),Mean_f_t(10:10:end),StD_f_t(10:10:end),'b');hold on;
 %     %plot(t_tEq,f_dani(i,:),'k');hold on;
     %plot(t_tEq,f_joanes(i,:),'r');hold on;
@@ -292,11 +292,11 @@ end
     f = fittype('(1 + a* x)^b','options',s);
     %[c2,gof2] = fit(time',funtzion',f)
     [c2,gof2] = fit(t_teqInst',Mean_f_t_Inst',f)
-    plot(c2,'k');hold on;
+    plot(c2,'c');hold on;
  end
  
  time_teq=0.1:0.1:100;
  func_jo=(1+(1/4)*time_teq).^(-1);
- plot(time_teq,func_jo,'b','LineWidth',1.5);
+ plot(time_teq,func_jo,'r');
 end
    

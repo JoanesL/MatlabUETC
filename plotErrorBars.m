@@ -9,6 +9,6 @@ next_plot=get(gca,'NextPlot');
 hold on;
 
 for i=1:max(size(x))
-   plot(x(i)*ones(1,3),y(i)*ones(1,3)+[-e_m(i) 0 e_p(i)],['-' string],'LineWidth',1)
+   plot(x(i)*ones(1,3),y(i)*ones(1,3)+[-e_m(i) 0 e_p(i)],['-' string],'LineWidth',2)
 end
 set(gca,'NextPlot',next_plot);
