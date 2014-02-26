@@ -21,7 +21,6 @@ eraB=[1.09 1.17 1.44 1.76 1.91];
         %Check to see if we want to rescale
         noscaling = 0;
         if strcmp(tOffset,'noscaling')==1
-            disp('** Plotting against k and removing t factor from correlator')
             tOffSet_temp=0;
             tOffSet = ones(1,nRunsRM)*tOffSet_temp;
             noscaling = 1;
@@ -46,7 +45,7 @@ eraB=[1.09 1.17 1.44 1.76 1.91];
         %Load Correlators
         [k_rm,t,C_rm,sd_rm]=ETCload(pathCell{1},Cname,id,runRM,150,tOffSet,tLimit_rm(1),tLimit_rm(2));
         [kInst,tInst,C_rmInst,sd_rm]=ETCload(pathCell{1},Cname,idIns,runRM,150,tOffSet,150,150.5);
-         
+         EEOO=k_rm
         t_teqInst(i)=tInst/tEq(i);
         
         if (xiscaling == 1)
@@ -140,7 +139,7 @@ eraB=[1.09 1.17 1.44 1.76 1.91];
         
     end
 
-k_new=0.1:0.005:0.6;
+k_new=0.015:0.005:3;
 
 for i=1:size(tEq,2)
     
@@ -288,10 +287,10 @@ end
          end
      end
 
-    s = fitoptions('Method','NonlinearLeastSquares','Lower',[0.1,-4],'Upper',[0.6,0]);
+    s = fitoptions('Method','NonlinearLeastSquares','Lower',[0.01,-5],'Upper',[2,5]);
     f = fittype('(1 + a* x)^b','options',s);
-    %[c2,gof2] = fit(time',funtzion',f)
-    [c2,gof2] = fit(t_teqInst',Mean_f_t_Inst',f)
+    [c2,gof2] = fit(time',funtzion',f)
+    %[c2,gof2] = fit(t_teqInst',Mean_f_t_Inst',f)
     plot(c2,'k');hold on;
  end
  
