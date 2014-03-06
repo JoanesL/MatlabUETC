@@ -3,10 +3,10 @@ function ETCRecons(path,Ni,id)
 
 %     Sm=load([path 'UETCeigenScalarBeforeMat_' num2str(b,'%2.2d') '.dat']);
 %     Sr=load([path 'UETCeigenScalarBeforeRad_' num2str(b,'%2.2d') '.dat']);
-%     Vm=load([path 'UETCeigenVectorBeforeMat_' num2str(b,'%2.2d') '.dat']);
-%     Vr=load([path 'UETCeigenVectorBeforeRad_' num2str(b,'%2.2d') '.dat']);
-     Vm=load([path 'UETCeigenTensorBeforeMat_' num2str(b,'%2.2d') '.dat']);
-     Vr=load([path 'UETCeigenTensorBeforeRad_' num2str(b,'%2.2d') '.dat']);
+    Vm=load([path 'UETCeigenVectorBeforeMat_' num2str(b,'%2.2d') '.dat']);
+    Vr=load([path 'UETCeigenVectorBeforeRad_' num2str(b,'%2.2d') '.dat']);
+%      Tm=load([path 'UETCeigenTensorBeforeMat_' num2str(b,'%2.2d') '.dat']);
+%      Tr=load([path 'UETCeigenTensorBeforeRad_' num2str(b,'%2.2d') '.dat']);
     
     for i=1:Ni
 %     sm.Evector(i,:) = Sm(i+1,2:end);
@@ -33,7 +33,7 @@ function ETCRecons(path,Ni,id)
     kt=Vm(1,2:end);
     
     %Interpolation Function
-    tEq=150;
+    tEq=50;
     
     t1=[3:3:9];
     t2=[10:5:40];
@@ -66,12 +66,12 @@ function ETCRecons(path,Ni,id)
         v.EvectorInt=[];
         
         for i=1:Ni
-            if (vr.Evalue(i)<0)
-                vr.Evalue(i)=0;
-            end
-            if (vm.Evalue(i)<0)
-                vm.Evalue(i)=0;
-            end
+%             if (vr.Evalue(i)<0)
+%                 vr.Evalue(i)=0;
+%             end
+%             if (vm.Evalue(i)<0)
+%                 vm.Evalue(i)=0;
+%             end
             v.EvectorInt(i,:) = f_neil(l)*sqrt(vr.Evalue(i))*vr.Evector(i,:) + (1-f_neil(l))*sqrt(vm.Evalue(i))*vm.Evector(i,:);
         end
     
@@ -83,25 +83,30 @@ function ETCRecons(path,Ni,id)
     
         plot(kt,ETCtemp,'r'); hold on;
         set(gca, 'Xscale','log')
-        whichkt=find(kt<150 & kt>50);
+        whichkt=find(kt<26 & kt>25)
       
-        for j=1:size(whichkt,2)
-            f_t(l,j)=(ETCtemp(whichkt(j))-ETCvMat(whichkt(j)))/(ETCvRad(whichkt(j))-ETCvMat(whichkt(j)));
-        end
-        
+        %for j=1:size(whichkt,2)
+            %f_t(l,j)=(ETCtemp(whichkt(j))-ETCvMat(whichkt(j)))/(ETCvRad(whichkt(j))-ETCvMat(whichkt(j)));
+        %end
+        f_t(l)=(ETCtemp(whichkt)-ETCvMat(whichkt))/(ETCvRad(whichkt)-ETCvMat(whichkt));
     end
     
-    %s = fitoptions('Method','NonlinearLeastSquares','Lower',[0.1,-10],'Upper',[0.6,0]);
-    %f = fittype('(1 + a* x)^b','options',s);
+    s = fitoptions('Method','NonlinearLeastSquares','Lower',[0.1,-10],'Upper',[0.6,0]);
+    f = fittype('(1 + a* x)^b','options',s);
     %[c2,gof2] = fit(time',funtzion',f)
-    %[c2,gof2] = fit(t_teq',f_t',f)
+    [c2,gof2] = fit(t_teq',f_t',f)
+    
+    time_teq=0.01:0.1:100;
+    func_jo=(1+(1/4)*time_teq).^(-1);
+    func_da=(1+(1/4)*time_teq).^(-2);
     
     figure()
-    %plot(c2,'k');hold on;
-    for j=1:size(whichkt,2)
-    scatter(t_teq(:),f_t(:,j),'k','filled');hold on;
-    end
-    plot(t_teq,f_neil,t_teq,f_neil.^2)
+    plot(c2,'k');hold on;
+    %for j=1:size(whichkt,2)
+    scatter(t_teq(:),f_t(:),'k','filled');hold on;
+    %end
+    plot(t_teq,f_neil,t_teq,f_neil.^2);hold on;
+    plot(time_teq,func_jo,'r',time_teq,func_da,'k');hold on;
     set(gca, 'Xscale','log')
     
 end
