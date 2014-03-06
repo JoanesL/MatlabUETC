@@ -59,9 +59,9 @@ function ETCRecons(path,Ni,id)
 
     end
     
-    %figure()
-    %plot(kt,ETCXrm,'r',kt,ETCvMat,'k'); hold on;
-    %set(gca, 'Xscale','log')
+    figure()
+    plot(kt,ETCXrm,'r',kt,ETCvMat,'k'); hold on;
+    set(gca, 'Xscale','log')
     
     %Pure Rad and Pure Mat ETCs
     ETCvRad=zeros(Ni,1);
@@ -90,8 +90,8 @@ function ETCRecons(path,Ni,id)
 %             if (vm.Evalue(i)<0)
 %                 vm.Evalue(i)=0;
 %             end
-            v.EvectorInt(i,:) = f_neil(l)*sqrt(vr.Evalue(i))*vr.Evector(i,:) + (1-f_neil(l))*sqrt(vm.Evalue(i))*vm.Evector(i,:);
-            %v.EvectorInt(i,:) = f_LAH(l)*sqrt(vr.Evalue(i))*vr.Evector(i,:) + (1-f_LAH(l))*sqrt(vm.Evalue(i))*vm.Evector(i,:);
+           % v.EvectorInt(i,:) = f_neil(l)*sqrt(vr.Evalue(i))*vr.Evector(i,:) + (1-f_neil(l))*sqrt(vm.Evalue(i))*vm.Evector(i,:);
+            v.EvectorInt(i,:) = f_LAH(l)*sqrt(vr.Evalue(i))*vr.Evector(i,:) + (1-f_LAH(l))*sqrt(vm.Evalue(i))*vm.Evector(i,:) +;
 
         end
     
@@ -101,9 +101,6 @@ function ETCRecons(path,Ni,id)
             ETCtemp=ETCtemp + (v.EvectorInt(i,:)').^2;
         end
     
-%         ETCtemp = ETCtemp  - 2*f_LAH(l)*(1-f_LAH(l))*(ETCXrm-ETCvMat);
-        ETCtemp = ETCtemp  - 2*f_neil(l)*(1-f_neil(l))*(ETCXrm-ETCvMat);
-        
         plot(kt,ETCtemp,'r'); hold on;
         set(gca, 'Xscale','log')
         whichkt1=find(kt<51 & kt>50)
@@ -145,8 +142,8 @@ function ETCRecons(path,Ni,id)
     scatter(t_teq(:),mean_ft(:),'k','filled');hold on;
     plotErrorBars(t_teq,mean_ft,stdev_ft,'b');hold on;
     %end
-    plot(t_teq,f_neil,'g',t_teq,f_neil.^2,'g');hold on;
-    %plot(time_teq,func_jo,'r',time_teq,func_da,'k');hold on;
+    plot(t_teq,f_LAH);hold on;
+    plot(time_teq,func_jo,'r',time_teq,func_da,'k');hold on;
     set(gca, 'Xscale','log')
     
 end
