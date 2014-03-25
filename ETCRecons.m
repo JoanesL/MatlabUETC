@@ -49,19 +49,6 @@ function ETCRecons(path,Ni,id)
     end
     
     
-    %Cross Correlator
-    
-    ETCXrm=zeros(Ni,1);
-    ETCXmr=zeros(Ni,1);
-    for i=1:Ni
-      ETCXrm=ETCXrm+(sqrt(vr.Evalue(i))*vr.Evector(i,:)').*(sqrt(vm.Evalue(i))*vm.Evector(i,:)');
-      ETCXmr=ETCXmr+(sqrt(vm.Evalue(i))*vm.Evector(i,:)').*(sqrt(vr.Evalue(i))*vr.Evector(i,:)');
-
-    end
-    
-    %figure()
-    %plot(kt,ETCXrm,'r',kt,ETCvMat,'k'); hold on;
-    %set(gca, 'Xscale','log')
     
     %Pure Rad and Pure Mat ETCs
     ETCvRad=zeros(Ni,1);
@@ -75,6 +62,20 @@ function ETCRecons(path,Ni,id)
     figure()
     plot(kt,ETCvRad,'b',kt,ETCvMat,'k'); hold on;
     set(gca, 'Xscale','log')    
+    
+    
+    %Cross Correlator
+    
+    ETCXrm=zeros(Ni,1);
+    ETCXmr=zeros(Ni,1);
+    for i=1:Ni
+      ETCXrm=ETCXrm+(sqrt(vr.Evalue(i))*vr.Evector(i,:)').*(sqrt(vm.Evalue(i))*vm.Evector(i,:)');
+      ETCXmr=ETCXmr+(sqrt(vm.Evalue(i))*vm.Evector(i,:)').*(sqrt(vr.Evalue(i))*vr.Evector(i,:)');
+
+    end
+    
+    plot(kt,ETCXrm,'r'); hold on;
+    set(gca, 'Xscale','log')
     
     
     %Construct interpolated e-vectors

@@ -219,7 +219,7 @@ ax=multiPlot([2 2]);
 axes(ax(1))
     
     plot(l{1},TT{1},colour{1},'LineWidth',1.5); hold on;
-    plot(l{2},1.12*TT{2},colour{2},'LineWidth',1.5); hold on;
+    plot(l{2},TT{2},colour{2},'LineWidth',1.5); hold on;
     plot(l{3},TT{3},colour{3},'LineWidth',1.5); hold on;
     legend(legendCell{1},legendCell{2},legendCell{3})
 %         plot(l{1},S(:,2),'LineWidth',3); hold on;
