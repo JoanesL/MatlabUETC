@@ -39,9 +39,9 @@ for j=qmin:q
     
     disp(['Loading time interval: ' num2str(j) ])
     
-    S=load([path 'UETCeigenScalarBefore_' num2str(b,'%2.2d') '_' num2str(j,'%2.2d') '.dat']);
+   % S=load([path 'UETCeigenScalarBefore_' num2str(b,'%2.2d') '_' num2str(j,'%2.2d') '.dat']);
     V=load([path 'UETCeigenVectorBefore_' num2str(b,'%2.2d') '_' num2str(j,'%2.2d') '.dat']);
-    T=load([path 'UETCeigenTensorBefore_' num2str(b,'%2.2d') '_' num2str(j,'%2.2d') '.dat']);
+   % T=load([path 'UETCeigenTensorBefore_' num2str(b,'%2.2d') '_' num2str(j,'%2.2d') '.dat']);
     
     %Int=load([path 'timeIntervals_' num2str(b,'%2.2d') '.dat']);
     
@@ -49,52 +49,52 @@ for j=qmin:q
     
     for i=Evalmin:Evaldim
         w=i-Evalmin+1;
-        s.Evector(i,:) = S(i+1,2:end);
-        s.Evalue(i) = S(i+1,1);
+%         s.Evector(i,:) = S(i+1,2:end);
+%         s.Evalue(i) = S(i+1,1);
     
         v.Evector(w,:) = V(i+1,2:end);
         v.Evalue(w) = V(i+1,1);
     
-        t.Evector(i,:) = T(i+1,2:end);
-        t.Evalue(i) = T(i+1,1);
+%         t.Evector(i,:) = T(i+1,2:end);
+%         t.Evalue(i) = T(i+1,1);
     end
 
    if j==qmin
-    ktphi=S(1,2:Ni+1);
+    %ktphi=S(1,2:Ni+1);
     
     ktvt=V(1,2:end);
    end
    
-   eVec_S{j}=s.Evector;
+   %eVec_S{j}=s.Evector;
    eVec_V{j}=v.Evector;   
-   eVec_T{j}=t.Evector;
+   %eVec_T{j}=t.Evector;
       
-   eVal_S{j}=s.Evalue;
+   %eVal_S{j}=s.Evalue;
    eVal_V{j}=v.Evalue;
-   eVal_T{j}=t.Evalue;
+   %eVal_T{j}=t.Evalue;
     
 end
-   eVec{1}=eVec_S;
+   %eVec{1}=eVec_S;
    eVec{2}=eVec_V;
-   eVec{3}=eVec_T;
+   %eVec{3}=eVec_T;
    
-   eVal{1}=eVal_S;
+   %eVal{1}=eVal_S;
    eVal{2}=eVal_V;
-   eVal{3}=eVal_T;
+   %eVal{3}=eVal_T;
 
     %figure()
     %a=multiPlot([1 1]);
     
-    dkts=diff(ktphi(1:end));
+    %dkts=diff(ktphi(1:end));
     dktvt=diff(ktvt(1:end));        
     
     v=1:Evaldim-Evalmin+1;
     t=1:Evaldim-Evalmin+1;
     [V,T]=meshgrid(v,t);
     
-    figure()
-    ax=multiPlot([1 1]);
-    axes(ax(1))
+%     figure()
+%     ax=multiPlot([1 1]);
+%     axes(ax(1))
     
     
     %PRUEBA
@@ -107,8 +107,13 @@ end
     
     colour=[0 0 0]
     
-    for type=1:3 %Type= S, V, T
-    %for type=2
+    
+    timeStart=7;
+    timeEnd=8;
+    time=linspace(timeStart,timeEnd,q)
+    
+    %for type=1:3 %Type= S, V, T
+    for type=2
      for l=q:-1:qmin+1 %from last to first, last timestep eVectors more similar
          
          r=r+1;
@@ -129,6 +134,7 @@ end
              eVec_Type=eVec{type};
              eVal_Type=eVal{type};
 
+             
             if l==q
                 Type_Evector=eVec_Type{l};
                 Type_Evalue=eVal_Type{l};
@@ -308,19 +314,19 @@ end
         end
         end
         
-        if l==q
-            if type==1 %S
-                eigenoutput(Cname,ktphi,Type_Evalue_next,Type_Evector_next,Ni,Evaldim,1,outPath,b,l);
-            else
-                eigenoutput(Cname,ktvt,Type_Evalue_next,Type_Evector_next,Ni,Evaldim,0,outPath,b,l);
-            end
-        end
-        if type==1 %S
-            eigenoutput(Cname,ktphi,Type_Evalue_next_Mod,Type_Evector_next_Mod,Ni,Evaldim,1,outPath,b,l-1);
-        else
-            eigenoutput(Cname,ktvt,Type_Evalue_next_Mod,Type_Evector_next_Mod,Ni,Evaldim,0,outPath,b,l-1);
-        end
-        
+%         if l==q
+%             if type==1 %S
+%                 eigenoutput(Cname,ktphi,Type_Evalue_next,Type_Evector_next,Ni,Evaldim,1,outPath,b,l);
+%             else
+%                 eigenoutput(Cname,ktvt,Type_Evalue_next,Type_Evector_next,Ni,Evaldim,0,outPath,b,l);
+%             end
+%         end
+%         if type==1 %S
+%             eigenoutput(Cname,ktphi,Type_Evalue_next_Mod,Type_Evector_next_Mod,Ni,Evaldim,1,outPath,b,l-1);
+%         else
+%             eigenoutput(Cname,ktvt,Type_Evalue_next_Mod,Type_Evector_next_Mod,Ni,Evaldim,0,outPath,b,l-1);
+%         end
+%         
      end
      
      %e_Vector50_temp_esk(1:Ni)=e_Vectors(1,50,:);
@@ -401,10 +407,10 @@ end
          end
          
          
-        figure() 
-        %plot(ktvt,e_vector_rot1(9,:),'b',ktvt,e_vector_rot1(10,:),'k');
-        %set(gca,'Xscale','log')
-        plot(dot_pro);
+%         figure() 
+%         %plot(ktvt,e_vector_rot1(9,:),'b',ktvt,e_vector_rot1(10,:),'k');
+%         %set(gca,'Xscale','log')
+%         plot(dot_pro);
         %set(gca,'Xscale','log')
         %set(gca, 'Xlim', [t_i(1) t_i(3)])
         
@@ -430,20 +436,22 @@ end
      %end
     end
     
-    figure()
-    plot(abs(Evalplot_orig(:,15:25)),'linewidth',1.2);hold on; grid on;
-        set(gca,'XLim',[qmin q])
-        set(gca,'XTick',[qmin:1:q])
-        xlabel('Interval index')
-        ylabel('Evalue')
-        title('Evalue evolution Before reordering','FontWeight','bold')
+%     figure()
+%     plot(abs(Evalplot_orig(:,50:51)),'linewidth',1.2);hold on; grid on;
+%         set(gca,'XLim',[qmin q])
+%         set(gca,'XTick',[qmin:1:q])
+%         xlabel('Interval index')
+%         ylabel('Evalue')
+%         title('Evalue evolution Before reordering','FontWeight','bold')
     
     
-    figure()
-        plot(abs(Evalplot(:,15:25)),'linewidth',1.2);hold on; grid on;
-        set(gca,'XLim',[qmin q])
-        set(gca,'XTick',[qmin:1:q])
-        xlabel('Interval index')
+   % figure()
+   %for h=1:size(time,2)
+        plot(time,abs(Evalplot(:,50:51)),'linewidth',4);hold on; grid on;
+   %end
+        %set(gca,'XLim',[qmin q])
+        %set(gca,'XTick',[qmin:1:q])
+        xlabel('t/t_{eq}')
         ylabel('Evalue')
         title('Evalue evolution After reordering','FontWeight','bold')    
     

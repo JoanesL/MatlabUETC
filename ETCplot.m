@@ -94,6 +94,9 @@ end
 [k,t,C,sd]=ETCload(path,Cname,id,run,tRef,tOffSet,tLimit(1),tLimit(2));
 C=abs(C);
 
+EEOO=size(t)
+JUAS=size(C)
+
 mint = min(t);
 maxt = max(t);
 
@@ -126,19 +129,21 @@ if (xiscaling == 1)
     end
 end
 
-
+EEOO=size(t)
+JUAS=size(C)
 %Plot on top of each other (hopefully)
 for i=2:size(C,1)-1 %ceil(linspace(1,size(C,1),10)) %floor(size(C,1)/2):size(C,1)
     plot((k*t(i)),C(i,:),'.-g'); hold on;
 end
 hold on
 
-t(end-2)
-
+%t(end-2)
+EEOO=size(t)
+JUAS=size(C)
 %Highlight lines and plot uncertainties
-plotLogNegative((k*t(end)),C(end,:),'b',2) 
+%plotLogNegative((k*t(end-2)),C(end-2,:),'b',2) 
 if nRuns>1 
-    plotErrorBars((k*t(end)),C(end,:),sd(end,:),'b')
+    plotErrorBars((k*t(end-1)),C(end-1,:),sd(end-1,:),'b')
     plotErrorBars((k*t(1)),C(1,:),sd(1,:),'k')
 end
 plotLogNegative((k*t(1)),C(1,:),'k',2);
