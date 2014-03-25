@@ -255,6 +255,9 @@ figure
 a=multiPlot([2 1]);
 for i=1:size(t_frac,2)
     
+    a(i)=(((2^(1/2) - 1) * t_frac(i) + 1)^2 - 1);
+    %f_neil(l)=(1+a(l))^(-1);
+    
     disp(['Time interval ' num2str(i) ])
     
     if i==1
@@ -262,7 +265,9 @@ for i=1:size(t_frac,2)
     elseif i==size(t_frac,2)+1
         f_t(i)=0;
     else
-        f_t(i)=power((1+0.25*t_frac(i)),-1)
+        %f_t(i)=power((1+0.25*t_frac(i)),-1)
+        %f_neil=(e_neil)^2
+        f_t(i)=(1+a(i))^(-2);
     end
 % for i=1:size(t_frac,2)-1
 %     
@@ -292,19 +297,19 @@ for i=1:size(t_frac,2)
     
 
     %Evolution of first 3 evectors
-    axes(a(1))
-    semilogx(x, s_Evector(1:Ni,1),'r', x, s_Evector(1:Ni,2),'g', x, s_Evector(1:Ni,3),'b'); hold on 
-    semilogx(x, s_Evector(Ni+1:end,1),'--r', x, s_Evector(Ni+1:end,2),'--g', x, s_Evector(Ni+1:end,3),'--b'); hold on
-    xlabel('index')
-    ylabel('Eigenvector value')
-    axis tight
-    
-    axes(a(2))
-    plot(1:Ni, v_Evalue,'b', 1:Ni,abs(v_Evalue),'r', [1 Ni],[0 0],'k'); hold on;
-    xlabel('Eigenvalue number')
-    ylabel('Eigenvalue')
-    axis tight
-    set(gca,'Xlim',[1 50])
+%     axes(a(1))
+%     semilogx(x, s_Evector(1:Ni,1),'r', x, s_Evector(1:Ni,2),'g', x, s_Evector(1:Ni,3),'b'); hold on 
+%     semilogx(x, s_Evector(Ni+1:end,1),'--r', x, s_Evector(Ni+1:end,2),'--g', x, s_Evector(Ni+1:end,3),'--b'); hold on
+%     xlabel('index')
+%     ylabel('Eigenvector value')
+%     axis tight
+%     
+%     axes(a(2))
+%     plot(1:Ni, v_Evalue,'b', 1:Ni,abs(v_Evalue),'r', [1 Ni],[0 0],'k'); hold on;
+%     xlabel('Eigenvalue number')
+%     ylabel('Eigenvalue')
+%     axis tight
+%     set(gca,'Xlim',[1 50])
     
 %     figure()
 %     plot(1:Ni, v_Evalue,'b', 1:Ni,abs(v_Evalue),'r', [1 Ni],[0 0],'k'); hold on;

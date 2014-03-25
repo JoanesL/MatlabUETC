@@ -63,6 +63,7 @@ end
 
 %Load ETC
 [k,t,C,sd]=ETCload(path,Cname,id,run,tRef,tOffSet,tLimit(1),tLimit(2));
+ETCGETSIZEC=size(C)
 C=abs(C);
 if (xiscaling == 1)
     [xiLag tStat] = statGet('xiLag',id,run,path);
@@ -74,8 +75,10 @@ if (xiscaling == 1)
     %This must be done since usually tStat(end)<t(end), therefore it is
     %imposible to perform the interpolation to the lastest times.
     which=find(t<tStat(end));
+    TSTATEND=tStat(end)
     t=t(which);
     C=C(which,:);
+    GERO=size(C)
     for i=1:size(C,1)
         xiScale = interp1(tStat,xiLagAv,t(i));
         if strcmp(Cname,'vector')~=1

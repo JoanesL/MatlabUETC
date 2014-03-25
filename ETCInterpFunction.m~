@@ -189,7 +189,7 @@ for i=1:size(tEq,2)
     
     t_tEqualty{i}=t_new(:)/tEq(i);
     
-    factor_tEq_tNow = (0.00796)^(-1);
+    factor_tEq_tNow = (5.47*10^{-6})^{-1};
    
     %C_rmInst=C_Inst{i};
      
@@ -219,8 +219,8 @@ for i=1:size(tEq,2)
     for l=1:size(t_new,1)
         for j=1:size(k_new,2)
             if lcdm==1
-                f_joanes_lcdm(i,l)=((1+(1/4)*(t_new(l)/tEq(i)*factor_tEq_tNow))^-1)
-                f_t(l,j)= (C_rm_int(l,j) / (f_joanes_lcdm(i,l)*C_r_int(l,j) + (1-f_joanes_lcdm(i,l))*C_m_int(l,j)));
+                f_joanes(i,l)=((1+(1/4)*t_new(l)/tEq(i))^-1);
+                f_t(l,j)= (C_rm_int(l,j) / C_m_int(l,j));
             else
                 f_t(l,j)= ( C_rm_int(l,j) - C_m_int(l,j) ) / (C_r_int(l,j) - C_m_int(l,j));
             end

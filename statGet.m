@@ -37,8 +37,7 @@ else
   end
 end
 
-disp(['Current working path: ' path])
-
+%disp(['Current working path: ' path]);
 
 %======================
 %Form num2str ID string
@@ -60,18 +59,18 @@ for r=1:numel(run)
   %Read file
   %=========
 %    if (numel(ID) > 0 && numel(run)>1) %HEMEN run=1 bada gaizki itten do... PENTSATU!!!
-     file=[path 'statsFile' num2str(run(r),ID) '.dat']
+     file=[path 'statsFile' num2str(run(r),ID) '.dat'];
 %    else
 %       file=[path 'statsFile' ID '.dat'];
 %    end
   disp(' ')
-  disp(['Loading file: ' file]); 
+  %disp(['Loading file: ' file]); 
   stats=load(file);
 
 %  disp(['File size: ' num2str(size(stats))])
   
   sizes=size(stats);
-  disp(['File size: ' num2str(sizes  )])
+  %disp(['File size: ' num2str(sizes  )]);
 
   if ~exist('stat','var')
       stat = zeros(numel(run),sizes(1));
