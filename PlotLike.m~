@@ -8,22 +8,10 @@ function PlotLike(path)
 file_r=[path 'B2_3yr_camb_planck_withB_uK_20140314.txt'];
 r_sp=load(file_r);
 
+l_r=r_sp(:,1);
 TT_sp=r_sp(:,2);
 
-file_tex=[path 'SUM_001-128_00.dat'];
-tex_sp=load(file_tex);
-
-TT_tex=tex_sp(:,2);
-
-T_cmb=2.726;
-Factor=(T_cmb^2)/(2*pi);
-
-TT_tex=Factor*TT_tex;
-
-f10_factor = TT_tex(9) / TT_sp(9);
-
 y=0:0.005:0.6;
-y=y*f10_factor;
 x=0:0.01:0.33;
 
 file=[path 'B2_logLike_tex.txt'];

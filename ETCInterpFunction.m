@@ -6,13 +6,22 @@ if s==1
 else
     tref_s=[150 150 150 150 150];
 end
+
     for i=1:size(tEq,2)
         
         nRunsRM=size(runRM,2);
         nRuns=size(runs,2);
-        
-        %id=['_tEq' num2str(tEq(i)) idRM]; RadMat
-        id=['_lcdm1k_1.0tNow' idRM];
+
+        if lcdm==1
+            id=['_lcdm1k_1.' num2str(tEq(i)) 'tNow' idRM]
+            if tEq(i)==0
+                tEq(i)=1.0;
+            elseif tEq(i)==33
+                tEq(i)=1.33;
+            end
+        else % RadMat
+            id=['_tEq' num2str(tEq(i)) idRM];
+        end
         idIns=['_eraB' num2str(eraB(i)) idRM];
         
             %Get tOffset from statsFile if necessary
@@ -144,7 +153,7 @@ end
         
     end
 
-k_new=0.05:0.005:0.6;
+k_new=0.1:0.005:0.6;
 
 for i=1:size(tEq,2)
     
@@ -186,10 +195,14 @@ for i=1:size(tEq,2)
    
     end
 
+    %t(end)=300
     
-    t_tEqualty{i}=t_new(:)/tEq(i);
-    
-    factor_tEq_tNow = (0.00796)^(-1);
+    if lcdm==1
+        t_tEqualty{i}=t_new(:)/(300/tEq(i));
+        factor_tEq_tNow = (0.00796)^(-1);
+    else
+        t_tEqualty{i}=t_new(:)/(tEq(i));
+    end
    
     %C_rmInst=C_Inst{i};
      
@@ -219,7 +232,7 @@ for i=1:size(tEq,2)
     for l=1:size(t_new,1)
         for j=1:size(k_new,2)
             if lcdm==1
-                f_joanes_lcdm(i,l)=((1+(1/4)*(t_new(l)/tEq(i)*factor_tEq_tNow))^-1)
+                f_joanes_lcdm(i,l)=((1+(1/4)*((t_new(l)/(300/tEq(i)))*factor_tEq_tNow))^-1);
                 f_t(l,j)= (C_rm_int(l,j) / (f_joanes_lcdm(i,l)*C_r_int(l,j) + (1-f_joanes_lcdm(i,l))*C_m_int(l,j)));
             else
                 f_t(l,j)= ( C_rm_int(l,j) - C_m_int(l,j) ) / (C_r_int(l,j) - C_m_int(l,j));
@@ -269,7 +282,7 @@ for i=1:size(tEq,2)
     
 end
 
-figure()
+%figure()
 for i=1:size(tEq,2)
     t_tEq=[];
     Mean_f_t=[];
@@ -278,15 +291,16 @@ for i=1:size(tEq,2)
     Mean_f_t=Mean{i};
 
     StD_f_t=StD{i};
-    plot(t_tEq,Mean_f_t,'LineWidth',2); hold on;
+    plot(t_tEq,Mean_f_t,'g','LineWidth',2); hold on;
     %plot(Mean_f_t);hold on;
-    plotErrorBars(t_tEq(10:10:end),Mean_f_t(10:10:end),StD_f_t(10:10:end),'b');hold on;
+    plotErrorBars(t_tEq(10:10:end),Mean_f_t(10:10:end),StD_f_t(10:10:end),'g');hold on;
 %     %plot(t_tEq,f_dani(i,:),'k');hold on;
     %plot(t_tEq,f_joanes(i,:),'r');hold on;
     %plot(t_tEq,f_neil(i,:),'g');hold on;
     %scatter(t_teqInst(i),Mean_f_t_Inst(i),'k','filled');hold on;
     %plotErrorBars(t_teqInst(i),Mean_f_t_Inst(i),StD_f_t_Inst(i),'k');
     set(gca,'Xscale','log')
+    set(gca,'YLim',[0 1.1])
 end
 
  if(Fit==1)
@@ -297,23 +311,38 @@ end
      %%Egin bektore bat mean eta bste bat denborarekin, dena fiteatzeko
      %%funtzioa lortzeko
      for i=1:size(tEq,2)
+         if lcdm==1
+            if ne(i,1)
+                tequ_end=tequ(end);
+            end
+         end
          tequ=t_tEqualty{i};
          mean_fun=Mean{i};
+         if lcdm==1
+            if ne(i,1)
+                whicht = find (tequ > tequ_end);
+                tequ=tequ(whicht);
+                mean_fun=mean_fun(whicht);
+            end
+         end
          for j=1:size(tequ,1)
             time(end+1)=tequ(j);
             funtzion(end+1)=mean_fun(j);
          end
      end
 
-    s = fitoptions('Method','NonlinearLeastSquares','Lower',[0.01,-5],'Upper',[2,5]);
-    f = fittype('(1 + a* x)^b','options',s);
-    [c2,gof2] = fit(time',funtzion',f)
+    %s = fitoptions('Method','NonlinearLeastSquares','Lower',[0.01,-10,-20],'Upper',[1,0,20]);
+    %f = fittype('(1 + a*x)^b','options',s);
+    %f = fittype('(1 + a* (x + c))^b','options',s);
+    %[c2,gof2] = fit(time',funtzion',f)
     %[c2,gof2] = fit(t_teqInst',Mean_f_t_Inst',f)
-    plot(c2,'k');hold on;
+    %plot(c2,'k');hold on;
+    
+    %func_jo=(1+(1/4)*time).^(-1);
+  %plot(time,func_jo,'b','LineWidth',1.5);
  end
  
 %  time_teq=0.1:0.1:100;
-%  func_jo=(1+(1/4)*time_teq).^(-1);
-%  plot(time_teq,func_jo,'b','LineWidth',1.5);
+  
 end
    

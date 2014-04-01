@@ -10,9 +10,17 @@ end
         
         nRunsRM=size(runRM,2);
         nRuns=size(runs,2);
-        
-        %id=['_tEq' num2str(tEq(i)) idRM]; RadMat
-        id=['_lcdm1k_1.0tNow' idRM];
+
+        if lcdm==1
+            id=['_lcdm1k_1.' num2str(tEq(i)) 'tNow' idRM]
+            if tEq(i)==0
+                tEq(i)=1.0;
+            elseif tEq(i)==33
+                tEq(i)=1.33;
+            end
+        else % RadMat
+            id=['_tEq' num2str(tEq(i)) idRM];
+        end
         idIns=['_eraB' num2str(eraB(i)) idRM];
         
             %Get tOffset from statsFile if necessary
@@ -186,10 +194,11 @@ for i=1:size(tEq,2)
    
     end
 
+    %t(end)=300
     
-    t_tEqualty{i}=t_new(:)/tEq(i);
+    t_tEqualty{i}=t_new(:)/(tEq(i)*300);
     
-    factor_tEq_tNow = (5.47*10^{-6})^{-1};
+    factor_tEq_tNow = (0.00796)^(-1);
    
     %C_rmInst=C_Inst{i};
      
@@ -219,8 +228,8 @@ for i=1:size(tEq,2)
     for l=1:size(t_new,1)
         for j=1:size(k_new,2)
             if lcdm==1
-                f_joanes(i,l)=((1+(1/4)*t_new(l)/tEq(i))^-1);
-                f_t(l,j)= (C_rm_int(l,j) / C_m_int(l,j));
+                f_joanes_lcdm(i,l)=((1+(1/4)*((t_new(l)/(tEq(i)*300))*factor_tEq_tNow))^-1);
+                f_t(l,j)= (C_rm_int(l,j) / (f_joanes_lcdm(i,l)*C_r_int(l,j) + (1-f_joanes_lcdm(i,l))*C_m_int(l,j)));
             else
                 f_t(l,j)= ( C_rm_int(l,j) - C_m_int(l,j) ) / (C_r_int(l,j) - C_m_int(l,j));
             end
@@ -305,8 +314,9 @@ end
          end
      end
 
-    s = fitoptions('Method','NonlinearLeastSquares','Lower',[0.01,-5],'Upper',[2,5]);
-    f = fittype('(1 + a* x)^b','options',s);
+    s = fitoptions('Method','NonlinearLeastSquares','Lower',[0.01,-10,-10],'Upper',[10,0,10]);
+    %f = fittype('(1 + a*x)^b','options',s);
+    f = fittype('(a* (x+c))^b','options',s);
     [c2,gof2] = fit(time',funtzion',f)
     %[c2,gof2] = fit(t_teqInst',Mean_f_t_Inst',f)
     plot(c2,'k');hold on;

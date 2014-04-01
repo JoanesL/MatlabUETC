@@ -177,7 +177,7 @@ set(gca,'LineWidth',1.1,'FontSize',36)
 ylabel('l(l+1)C^{BB}_l/2\pi','fontsize',36)
 xlabel('l','fontsize',36)
 % 
- grey=[0.5 0.5 0.5];
+% grey=[0.5 0.5 0.5];
 
 %############################
 %Fig 3
@@ -186,28 +186,27 @@ xlabel('l','fontsize',36)
 %############################
 % %High l Planck data
 % %LCDM + r=0.2 + lensing
-figure()
-plot(lTens,TTTens,'k','LineWidth',2);hold on;
-%String:
-plot(lLens,TTStr_int*alpha+TTTens,'-.','Color',grey,'LineWidth',1.5); hold on;
-plot(lLens,TTStr_int*alpha,'-.b','LineWidth',1.5); hold on; %Normalized at l=80
-plot(lLens,TTTex_int*BicepFactor_tex,'-.','Color','r','LineWidth',2); hold on; %Normalized at l=80
-plot(lLens,TTStr_int*alpha2,'-.b','LineWidth',1.5); hold on;
-plot(lLens,TTStr_int*alpha3,'-.b','LineWidth',1.5); hold on;
-plot(lLens,TTStr_int*alpha4,'-.b','LineWidth',1.5); hold on;
-plotErrorBars(lPlh,TTPLhigh,TTPLhStDev,'k');hold on;
-for i=1:size(lPlh)
-    herrorbar(lPlh(i), TTPLhigh(i), lPlhLeft(i), lPlhRight(i));hold on;
-end
-%errorbar(lPll,TTPLlow,TTPLdown,TTPLup,'ok','LineWidth',2)
-set(gca,'Xscale','log')
-set(gca,'Yscale','log')
-set(gca,'XLim',[10,2000])
-set(gca,'YLim',[10 7000])
-set(gca,'TickLength',get(gca,'TickLength')*1.5)
-set(gca,'LineWidth',1.1,'FontSize',36)
-ylabel('l(l+1)C^{TT}_l/2\pi [\muK^2]','fontsize',36)
-xlabel('l','fontsize',36)
+% figure()
+% plot(lTens,TTTens,'k','LineWidth',2);hold on;
+% %String:
+% plot(lLens,TTStr_int*alpha+TTTens,'-.','Color',grey,'LineWidth',1.5); hold on;
+% plot(lLens,TTStr_int*alpha,'-.b','LineWidth',1.5); hold on; %Normalized at l=80
+% plot(lLens,TTStr_int*alpha2,'-.b','LineWidth',1.5); hold on;
+% plot(lLens,TTStr_int*alpha3,'-.b','LineWidth',1.5); hold on;
+% plot(lLens,TTStr_int*alpha4,'-.b','LineWidth',1.5); hold on;
+% plotErrorBars(lPlh,TTPLhigh,TTPLhStDev,'k');hold on;
+% for i=1:size(lPlh)
+%     herrorbar(lPlh(i), TTPLhigh(i), lPlhLeft(i), lPlhRight(i));hold on;
+% end
+% %errorbar(lPll,TTPLlow,TTPLdown,TTPLup,'ok','LineWidth',2)
+% set(gca,'Xscale','log')
+% set(gca,'Yscale','log')
+% set(gca,'XLim',[10,2000])
+% set(gca,'YLim',[10 7000])
+% set(gca,'TickLength',get(gca,'TickLength')*1.5)
+% set(gca,'LineWidth',1.1,'FontSize',36)
+% ylabel('l(l+1)C^{TT}_l/2\pi [\muK^2]','fontsize',36)
+% xlabel('l','fontsize',36)
 
 %############################
 %Lower panel
